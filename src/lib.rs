@@ -1,38 +1,40 @@
+use num::Float;
+
 mod utils;
 
-pub use utils::{Intesection,circle_intersection};
+pub use utils::{circle_intersection, Intesection};
 
-pub struct Circle {
-    center: (f32, f32),
-    radius: f32,
+pub struct Circle<T: Float> {
+    center: (T, T),
+    radius: T,
 }
 
-pub struct PolarCircle {
-    center: (f32, f32),
-    radius: f32,
+pub struct PolarCircle<T: Float> {
+    center: (T, T),
+    radius: T,
 }
 
-impl Circle {
-    pub fn new(x: f32, y: f32, radius: f32) -> Circle {
+impl<T: Float> Circle<T> {
+    pub fn new(x: T, y: T, radius: T) -> Circle<T> {
         Circle {
             center: (x, y),
             radius,
         }
     }
 
-    pub fn to_polar(&self) -> PolarCircle {
+    pub fn to_polar(&self) -> PolarCircle<T> {
         let center_dist = (self.center.0 * self.center.0 + self.center.1 * self.center.1).sqrt();
         let angle = (self.center.0 / center_dist).acos();
         PolarCircle::new((center_dist, angle), self.radius)
     }
 }
 
-impl PolarCircle {
-    pub fn new(center: (f32, f32), radius: f32) -> PolarCircle {
+impl<T: Float> PolarCircle<T> {
+    pub fn new(center: (T, T), radius: T) -> PolarCircle<T> {
         PolarCircle { center, radius }
     }
 
-    pub fn to_cartesian(&self) -> Circle {
+    pub fn to_cartesian(&self) -> Circle<T> {
         let x = self.center.0 * self.center.1.cos();
         let y = self.center.0 * self.center.1.sin();
         Circle::new(x, y, self.radius)
@@ -80,12 +82,12 @@ mod tests {
 
     #[test]
     fn circle_to_polar_conversion() {
-        let x = 2.0;
-        let y = 2.0;
-        let r = 6.0;
+        let x = 2.0f64;
+        let y = 2.0f64;
+        let r = 6.0f64;
         let c = Circle::new(x, y, r);
         let pc = c.to_polar();
-        let center_radius = (x * x + y * y).sqrt();
+        let center_radius: f64 = (x * x + y * y).sqrt();
 
         assert_eq!(
             r, pc.radius,
