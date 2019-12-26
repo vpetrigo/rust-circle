@@ -21,7 +21,6 @@ fn dumb<T: Float + Display>(x: T, y: T) -> Complex<T> {
 fn main() {
     let c1 = circle::Circle::new(-0.38_f32, 0.0, 0.621);
     let c2 = circle::Circle::new(0.5_f32, 0.0, 0.5);
-
     let intersection = circle::circle_intersection(&c1, &c2);
 
     if let Ok(int) = intersection {
