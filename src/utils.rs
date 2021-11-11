@@ -14,6 +14,7 @@ fn point_distance<T: Float>(p1: &Point<T>, p2: &Point<T>) -> T {
 
 fn a_dist<T: Float>(c1: &Circle<T>, c2: &Circle<T>, distance: T) -> T {
     let _two: T = NumCast::from(2.0).unwrap();
+
     (c1.radius.powi(2) - c2.radius.powi(2) + distance.powi(2)) / (_two * distance)
 }
 
